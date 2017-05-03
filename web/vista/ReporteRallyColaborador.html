@@ -1,0 +1,66 @@
+<div ng-controller="RallyControllerColaborador">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            
+            <form class="form-inline" ng-submit="rallyReportColaborador()">
+                <div class="form-group">
+                    <label for="Metas">Metas</label>
+                    <select class="form-control" id="Metas" ng-model="metaSelect" required>
+                        <option></option>
+                        <option ng-repeat="m in metas" value="{{m.idmeta}}">
+                            {{m.nombre}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="agenciasActivas">Agencia:</label>
+                    <select class="form-control" id="agenciasActivas" ng-model="agSelect" required>
+                        <option></option>
+                        <option ng-repeat="x in agencias" value="{{x.idAgencia}}">
+                            {{x.nombreAgencia}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fechaInicio">De:</label>
+                    <input type="text" class="form-control" id="fechaInicio" ng-model="fechaInicio" placeholder="YYYY/MM/DD" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaFin">Al:</label>
+                    <input type="text" class="form-control" id="fechaFin" ng-model="fechaFin" placeholder="YYYY/MM/DD" required>
+                </div>
+                <button type="submit" class="btn btn-default">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>   
+            </form>
+        </div>    
+    </div>
+    <br/>
+    <div class="panel panel-default" ng-repeat="r in rally">
+        <div class="panel-heading">
+            <h3 class="panel-title" ng-bind="r.nombreColaborador"></h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>cif</th>
+                    <th>Asociado</th>
+                    <th>Fecha</th>
+                    <th>No. Referencia</th>
+                    <th>Monto</th>
+                    <th>Telefono</th>
+                    <th>Tipo</th>
+                </tr>
+                <tr ng-repeat="rc in r.rallycolocar">
+                    <td ng-bind="rc.cif">asa</td>
+                    <td ng-bind="rc.nombreAsociado">asa</td>
+                    <td ng-bind="rc.fecha">asa</td>
+                    <td ng-bind="rc.referencia">asas</td>
+                    <td ng-bind="rc.monto"></td>
+                    <td ng-bind="rc.telefono"></td>
+                    <td ng-bind="rc.tipo"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

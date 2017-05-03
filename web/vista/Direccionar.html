@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+Metodo para redirecionar y tomar el operador
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <script src="../js/angular.min.1.4.8.js" type="text/javascript"></script>
+        <script src="../JQuery/jquery-2.1.4.min.js" type="text/javascript"></script>
+        <script>  
+            //accion para cargarlo em la index
+            function setCookie(cname,cvalue,exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                var expires = "expires=" + d.toGMTString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+            
+            //accion para obtner el operador de la url
+            function GETURl() {
+            
+                var urlEnd = document.URL.indexOf('?');
+                var names;
+                var values = new Array();
+
+                if (urlEnd != -1){
+                    var params = document.URL.substring(urlEnd+1, document.URL.length).split('&');
+                    for(i=0; i<params.length; i++){
+                        names = params[i].split('=');
+                        values[i] = names[1];
+                    }
+                    ListOper = values;
+                }
+                return ListOper;
+            };    
+            
+            var app = angular.module('Redireccionar', []);
+            app.controller('RedireccionarController', function($scope, $http){
+                
+                
+                // Variables de conexion a la base de datos
+                $scope.HOST = 'https://module.app-tonantel.com/';
+
+                $scope.Oper = GETURl();
+                //varibale para enviar el operador
+                $scope.Operador =$scope.Oper[1];
+
+                // Accion para consultar el listado de agencias activas y mostrarlas en el select
+                $scope.encriptar = function (){
+                    $http({
+                        url: $scope.HOST+"Analytics/web-service/Encriptar?operConect="+$scope.Operador,
+                        method: "GET" 
+                    })
+                    .then(function(datos){
+                        $scope.operConect = datos.data;
+                        setCookie("Cookie",$scope.operConect,1);
+                        window.location.href=$scope.HOST+"/Analytics";
+                    });
+                };
+
+                $scope.encriptar();
+            });
+        </script>
+        <div ng-app="Redireccionar">
+            <div ng-controller="RedireccionarController">
+            </div>
+        </div>
+    </body>
+</html>
+
